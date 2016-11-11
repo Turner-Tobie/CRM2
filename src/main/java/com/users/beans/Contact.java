@@ -33,6 +33,10 @@ public class Contact {
 		
 	}
 	
+	public Contact(long userId){
+		this.userId = userId;
+	}
+	
 	public Contact(long userId, String firstName, String lastName, String email, String phoneNumber, boolean active) {
 		this.userId = userId;
 		this.firstName = firstName;
