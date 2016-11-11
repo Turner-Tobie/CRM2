@@ -25,7 +25,7 @@ import com.users.security.PermissionService;
 @Controller
 public class ContactController {
 
-	private static final Logger log = LoggerFactory.getLogger(IndexController.class);
+	private static final Logger log = LoggerFactory.getLogger(ContactController.class);
 
 	@Autowired
 	private ContactRepository contactRepo;

@@ -12,7 +12,7 @@
 
 		<h1>New User</h1>
 
-		<form method="POST" th:object="${users}" enctype="multipart/form-data">
+		<form method="POST" th:object="${user}" enctype="multipart/form-data">
 
 
 			<div class="form-group">
@@ -45,15 +45,16 @@
 					th:if="${#fields.hasErrors('phoneNumber')}"
 					th:errors="*{phoneNumber}">Phone Number Error</span>
 			</div>
+			
 			<div class="field">
 				<label for="twitterHandle">Twitter Handle</label> <input
 					name="twitterHandle" type="text"
-					th:value="${contact.twitterHandle}" />
+					th:value="${twitterHandle}" />
 			</div>
 
 			<div class="field">
 				<label for="facebookUrl">Facebook URL</label> <input
-					name="facebookUrl" type="text" th:value="${contact.facebookUrl}" />
+					name="facebookUrl" type="text" th:value="${facebookUrl}" />
 			</div>
 
 			<div class="form-group">
