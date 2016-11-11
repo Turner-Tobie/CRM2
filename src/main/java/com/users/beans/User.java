@@ -23,13 +23,19 @@ public class User {
 	private String phoneNumber;
 	private String password;
 	private boolean active;
+	private String twitterHandle;	
+	private String facebookUrl;
 
-	protected User() {}
+	public User() {
+		active = true;
+	}
 
-	public User(String firstName, String lastName, String email, String phoneNumber, String password, boolean active) {
+	public User(String firstName, String lastName, String email, String phoneNumber, String password, boolean active, String twitterHandle, String facebookUrl) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.twitterHandle = twitterHandle;
+		this.facebookUrl = facebookUrl;
 		this.phoneNumber = phoneNumber;
 		this.password = password;
 		this.active = active;
@@ -96,4 +102,19 @@ public class User {
 		this.active = active;
 	}
 
+	public String getTwitterHandle() {
+		return twitterHandle;
+	}
+
+	public void setTwitterHandle(String twitterHandle) {
+		this.twitterHandle = twitterHandle;
+	}
+
+	public String getFacebookUrl() {
+		return facebookUrl;
+	}
+
+	public void setFacebookUrl(String facebookUrl) {
+		this.facebookUrl = facebookUrl;
+	}
 }
