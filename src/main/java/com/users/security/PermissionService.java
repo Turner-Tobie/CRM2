@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +20,22 @@ import com.users.repositories.UserRepository;
 public class PermissionService {
 
 	@Autowired
-	private UserRepository userRepo;
-	
+	private UserRepository userRepository;
+
 	@Autowired
-	private ContactRepository contactRepo;
+	private ContactRepository contactRepository;
 
 	private AbstractAuthenticationToken getToken() {
-		return (AbstractAuthenticationToken) 
-				getContext().getAuthentication();
+		return (AbstractAuthenticationToken) getContext().getAuthentication();
 	}
-	
+
+
+	public long findCurrentUserId() {
+		List<User> users = userRepository.findByEmail(getToken().getName());
+		return users != null && !users.isEmpty() ? users.get(0).getId() : -1;
+	}
+
+
 	public boolean hasRole(Role role) {
 		for (GrantedAuthority ga : getToken().getAuthorities()) {
 			if (role.toString().equals(ga.getAuthority())) {
@@ -39,19 +46,23 @@ public class PermissionService {
 	}
 
 	public boolean canAccessUser(long userId) {
-		
 		return hasRole(ROLE_ADMIN) || (hasRole(ROLE_USER) && findCurrentUserId() == userId);
 	}
 
 	public boolean canEditContact(long contactId) {
-		return hasRole(ROLE_USER) && contactRepo.findByUserIdAndId(findCurrentUserId(), contactId) != null;
+		return hasRole(ROLE_USER)
+				&& contactRepository.findByUserIdAndId(findCurrentUserId(), contactId) != null;
+	}
+
+	public String getCurrentEmail() {
+		return getToken().getName();
 	}
 	
-	public long findCurrentUserId() {
-		List<User> users = userRepo.findByEmail(getToken().getName());
-		return users != null && !users.isEmpty() ? users.get(0).getId() : -1;
+	public User findCurrentUser() {
+		List<User> users = userRepository.findByEmail(getToken().getName());
+		return users != null && !users.isEmpty() ? users.get(0) : new User();
 	}
 
 
-	
+
 }

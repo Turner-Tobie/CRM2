@@ -1,5 +1,7 @@
 package com.users.controller;
 
+import static org.h2.util.StringUtils.isNullOrEmpty;
+
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -18,13 +20,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.users.beans.Contact;
 import com.users.beans.ContactImage;
+import com.users.beans.User;
 import com.users.repositories.ContactImageRepository;
 import com.users.repositories.ContactRepository;
 import com.users.security.PermissionService;
 
 @Controller
 public class ContactController {
-
 	private static final Logger log = LoggerFactory.getLogger(ContactController.class);
 
 	@Autowired
@@ -40,7 +42,8 @@ public class ContactController {
 	@RequestMapping("/contacts")
 	public String listContacts(Model model) {
 		long currentUserId = permissionService.findCurrentUserId();
-		model.addAttribute("contacts", contactRepo.findAllByUserIdOrderByFirstNameAscLastNameAsc(currentUserId));
+		model.addAttribute("contacts",
+				contactRepo.findAllByUserIdOrderByFirstNameAscLastNameAsc(currentUserId));
 		return "listContacts";
 	}
 
@@ -92,7 +95,8 @@ public class ContactController {
 		if (!file.isEmpty()) {
 			try {
 				List<ContactImage> images = contactImageRepo.findByContactId(contact.getId());
-				ContactImage img = (images.size() > 0) ? images.get(0) : new ContactImage(contactId);
+				ContactImage img = (images.size() > 0) ? images.get(0)
+						: new ContactImage(contactId);
 				img.setContentType(file.getContentType());
 				img.setImage(file.getBytes());
 				contactImageRepo.save(img);
@@ -114,12 +118,12 @@ public class ContactController {
 
 		return contact(contactId, model);
 	}
-	
+
 	@Secured("ROLE_USER")
 	@RequestMapping(value = "/contact/create", method = RequestMethod.GET)
 	public String createContact(Model model) {
 		model.addAttribute("contact", new Contact(permissionService.findCurrentUserId()));
-		
+
 		return "contactCreate";
 	}
 
@@ -133,5 +137,36 @@ public class ContactController {
 		return profileSave(savedContact, savedContact.getId(), false, file, model);
 	}
 
+	@Secured("ROLE_USER")
+	@RequestMapping(value = "/email/contact/{contactId}", method = RequestMethod.GET)
+	public String prepEmailContact(@PathVariable long contactId, Model model) {
+		User user = permissionService.findCurrentUser();
+		Contact contact = contactRepo.findByUserIdAndId(user.getId(), contactId);
+
+		StringBuilder message = new StringBuilder().append("Your friend ")
+				.append(user.getFirstName()).append(" ").append(user.getLastName())
+				.append(" has forwarded you the following contact:\n\n")
+				.append(contact.getFirstName()).append(" ").append(contact.getLastName())
+				.append("\n");
+		if (!isNullOrEmpty(contact.getEmail())) {
+			message.append("Email: ").append(contact.getEmail()).append("\n");
+		}
+		if (!isNullOrEmpty(contact.getPhoneNumber())) {
+			message.append("Phone: ").append(contact.getPhoneNumber()).append("\n");
+		}
+		if (!isNullOrEmpty(contact.getTwitterHandle())) {
+			message.append("Twitter: ").append(contact.getTwitterHandle()).append("\n");
+		}
+		if (!isNullOrEmpty(contact.getFacebookUrl())) {
+			message.append("Facebook: ").append(contact.getFacebookUrl()).append("\n");
+		}
+
+		model.addAttribute("message", message.toString());
+		model.addAttribute("pageTitle", "Forward Contact");
+		model.addAttribute("subject",
+				"Introducing " + contact.getFirstName() + " " + contact.getLastName());
+
+		return "sendMail";
+	}
 
 }
