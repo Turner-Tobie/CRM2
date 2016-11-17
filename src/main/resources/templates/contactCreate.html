@@ -37,7 +37,12 @@
 		<div class="field">
 			<label for="phoneNumber">Phone Number</label>
 			<input name="phoneNumber" type="text" th:value="${contact.phoneNumber}"/>
-		</div>				
+		</div>			
+		
+		<div class="field">
+			<label for="notes">Notes</label>				
+			<textarea name="notes" th:placeholder="${contact.notes}" th:value="${contact.notes}" class="form-inputtextarea form-item"></textarea>
+		</div>
 		
 		<div class="field">
 			<label for="file">Image</label>

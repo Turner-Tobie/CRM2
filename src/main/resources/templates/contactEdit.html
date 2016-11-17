@@ -1,5 +1,6 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="layouts/basic">
+
 <head>
     <title>User Edit</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -56,6 +57,10 @@
 			<input name="phoneNumber" type="text" th:value="${contact.phoneNumber}"/>
 		</div>
 		
+		<div class="field">
+			<label for="notes">Notes</label>				
+			<textarea name="notes" th:placeholder="${contact.notes}" th:value="${contact.notes}" class="form-inputtextarea form-item"></textarea>
+		</div>
 		<div class="field">
 			<label for="file">Image</label>
 			<input name="file" type="file"/>

@@ -25,8 +25,8 @@ import com.users.security.PermissionService;
 public class EmailService {
 	private static final Logger log = LoggerFactory.getLogger(EmailService.class);
 	
-	private final String username = "";
-	private final String password = "";
+	private final String username = "batch0879@gmail.com";
+	private final String password = "DeathsWing1!";
 
 	private Properties props;
 	private Authenticator auth;
@@ -46,7 +46,7 @@ public class EmailService {
 			}
 		};
 	}
-
+	//error here at com.users.service.EmailService.sendMessage(EmailService.java:51) ~[bin/:na]
 	public boolean sendMessage(Email email) {
 		Session session = Session.getInstance(props, auth);
 		Message message = new MimeMessage(session);
@@ -57,7 +57,6 @@ public class EmailService {
 					new Address[] { new InternetAddress(permissionService.getCurrentEmail()) });
 			message.setSubject(email.getSubject());
 			message.setText(email.getCustom() + "\n\n" + email.getMessage());
-//error here at com.users.service.EmailService.sendMessage(EmailService.java:51) ~[bin/:na]
 			Transport.send(message);
 		} catch (Exception e) {
 			log.error("Unable to send message", e);

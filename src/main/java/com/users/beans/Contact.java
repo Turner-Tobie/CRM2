@@ -33,6 +33,8 @@ public class Contact {
 	
 	private boolean active;
 	
+	private String notes;
+	
 	protected Contact(){
 		active = true;
 
@@ -43,7 +45,7 @@ public class Contact {
 		this.active = true;
 	}
 	
-	public Contact(long userId, String firstName, String lastName, String email, String phoneNumber, String twitterHandle, String facebookUrl, boolean active) {
+	public Contact(long userId, String firstName, String lastName, String email, String phoneNumber, String twitterHandle, String facebookUrl, boolean active, String notes) {
 		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -51,6 +53,7 @@ public class Contact {
 		this.phoneNumber = phoneNumber;
 		this.twitterHandle = twitterHandle;
 		this.facebookUrl = facebookUrl;
+		this.notes = notes;
 		this.active = active;
 	}
 	
@@ -129,6 +132,14 @@ public class Contact {
 
 	public void setFacebookUrl(String facebookUrl) {
 		this.facebookUrl = facebookUrl;
+	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
 	}
 
 	

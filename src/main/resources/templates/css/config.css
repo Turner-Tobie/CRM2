@@ -1,0 +1,17 @@
+.form-inputtextarea {
+  background: lightblue;
+	border-style: none;
+	order: -1;
+	padding: .875rem .5rem;
+	height: 10rem;
+}
+
+.notes {
+	border-color: black;
+	border-style: solid;
+	order: -1;
+	padding: .875rem .5rem;
+	width: 45%;
+	height: 10rem;
+	word-wrap: break-word;
+}
