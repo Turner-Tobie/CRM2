@@ -26,5 +26,10 @@
 			</tr>
 		</tbody>
 	</table>
+	<form th:action="@{|/users/search|}" method="POST">
+	   <input type="text" placeholder="Search..." name="search" th:value="${search}" />
+	   <input type="submit" th:value="Search"/>
+	</form> 
+	<a href="/user/create">Create User</a>
 </body>
 </html>

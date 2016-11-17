@@ -7,43 +7,75 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 @Entity
-@Table(name = "users")
-public class User {
+@Table(name = "contacts")
+public class Contact {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-
+	
+	private long userId;
+	
 	private String firstName;
+	
 	private String lastName;
-
+	
 	@Column(unique = true)
 	private String email;
+	
 	private String phoneNumber;
-	private String password;
-	private boolean active;
-	private String twitterHandle;	
+	
+	private String twitterHandle;
+	
 	private String facebookUrl;
-
-	public User() {
+	
+	private boolean active;
+	
+	private String notes;
+	
+	protected Contact(){
 		active = true;
-	}
 
-	public User(String firstName, String lastName, String email, String phoneNumber, String password, boolean active, String twitterHandle, String facebookUrl) {
+	}
+	
+	public Contact(long userId){
+		this.userId = userId;
+		this.active = true;
+	}
+	
+	public Contact(long userId, String firstName, String lastName, String email, String phoneNumber, String twitterHandle, String facebookUrl, boolean active, String notes) {
+		this.userId = userId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
+		this.phoneNumber = phoneNumber;
 		this.twitterHandle = twitterHandle;
 		this.facebookUrl = facebookUrl;
-		this.phoneNumber = phoneNumber;
-		this.password = password;
+		this.notes = notes;
 		this.active = active;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", password=" + password + ", active=" + active + "]";
+			return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", phoneNumber=" + phoneNumber + ", twitterHandle=" + twitterHandle  + ", facebookUrl=" + facebookUrl + ", active=" + active + "]";
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 
 	public String getFirstName() {
@@ -78,22 +110,6 @@ public class User {
 		this.phoneNumber = phoneNumber;
 	}
 
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
 	public boolean isActive() {
 		return active;
 	}
@@ -117,4 +133,17 @@ public class User {
 	public void setFacebookUrl(String facebookUrl) {
 		this.facebookUrl = facebookUrl;
 	}
+
+	public String getNotes() {
+		return notes;
+	}
+
+	public void setNotes(String notes) {
+		this.notes = notes;
+	}
+
+	
+
+	
+	
 }
