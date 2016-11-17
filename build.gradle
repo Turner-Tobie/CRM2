@@ -45,10 +45,11 @@ task wrapper(type: Wrapper) {
 }
 task stage(dependsOn: ['build', 'clean'])
 build.mustRunAfter clean
+$heroku config:set GRADLE_TASK="build"
 
 task copyToLib(type: Copy) {
-  into "$buildDir/lib"
-  from(configurations.compile)
+    into "$buildDir/lib"
+    from(configurations.compile)
 }
 
 stage.dependsOn(copyToLib)
